@@ -1,0 +1,6 @@
+{
+	"appId": "io.ionic.starter",
+	"appName": "movies",
+	"webDir": "build",
+	"bundledWebRuntime": false
+}
