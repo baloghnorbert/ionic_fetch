@@ -2,7 +2,7 @@ import "./Home.Style.css";
 
 import React, { useState, useEffect } from "react";
 import { IMovie } from "../../model/movie";
-import { MovieService } from "../../service/http";
+import { MovieService } from "../../service/movieService";
 import { baseURL } from "../../service/baseURL";
 import {
     IonPage,
@@ -29,7 +29,7 @@ const HomePage: React.FC = (): JSX.Element => {
     }, []);//[] miatt az oldal betöltésekor fut le
 
     const fetchData = async (): Promise<void> => {
-        const data: IMovie[] | undefined = await MovieService.getMovies<IMovie[]>(baseURL);
+        const data: IMovie[] | undefined = await MovieService.getMovies(baseURL);
         setMovies(data ?? [])
     }
 

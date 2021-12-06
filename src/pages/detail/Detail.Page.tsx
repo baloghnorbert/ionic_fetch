@@ -2,7 +2,7 @@ import './Detail.Style.css';
 
 import React, { useState, useEffect } from "react";
 import { IMovie } from "../../model/movie";
-import { MovieService } from "../../service/http";
+import { MovieService } from "../../service/movieService";
 import { baseURL } from "../../service/baseURL";
 import {
     IonPage,
@@ -10,8 +10,6 @@ import {
     IonToolbar,
     IonTitle,
     IonContent,
-    IonList,
-    IonListHeader,
     IonBackButton,
     IonCard,
     IonCardContent,
@@ -23,8 +21,6 @@ import {
 import {
     withRouter, RouteComponentProps
 } from "react-router-dom";
-import { setupMaster } from "cluster";
-
 
 interface IProps extends RouteComponentProps<{ id: string }> {
 
@@ -41,12 +37,11 @@ const DetailPage: React.FC<IProps> = (props: IProps): JSX.Element => {
 
     const filmURL = baseURL + `/${props.match.params.id}`;
     const fetchData = async (): Promise<void> => {
-        const data: IMovie | undefined = await MovieService.getMovies<IMovie>(filmURL);
+        const data: IMovie | undefined = await MovieService.getMovie(filmURL);
         setMovie(data)
     }
 
     return (
-
         <IonPage>
             <IonHeader>
                 <IonToolbar>
