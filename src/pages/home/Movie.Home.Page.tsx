@@ -9,7 +9,7 @@ interface IProps {
 const MovieComponent: React.FC<IProps> = (props: IProps): JSX.Element => {
 
     return (
-        <IonItem>
+        <IonItem routerLink={`/detail/${props.movie.id}`}> 
             <IonAvatar slot="start">
                 <img src={props.movie.movie_banner} alt={props.movie.title} />
             </IonAvatar>

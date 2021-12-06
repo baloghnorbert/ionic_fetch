@@ -20,8 +20,11 @@ import '@ionic/react/css/display.css';
 
 /* Theme variables */
 import './theme/variables.css';
+import './theme/global.css';
+
 import HomePage from './pages/home/Home.Page';
 import React from 'react';
+import DetailPage from './pages/detail/Detail.Page';
 
 const App: React.FC = () => (
   <IonApp>
@@ -32,6 +35,9 @@ const App: React.FC = () => (
         </Route>
         <Route exact path="/">
           <Redirect to="/home" />
+        </Route>
+        <Route exact path="/detail/:id">
+          <DetailPage />
         </Route>
       </IonRouterOutlet>
     </IonReactRouter>

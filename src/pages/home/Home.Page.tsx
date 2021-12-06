@@ -14,11 +14,13 @@ import {
     IonListHeader
 } from "@ionic/react";
 import MovieComponent from "./Movie.Home.Page";
+import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
+import Loader from "react-loader-spinner";
 
 const HomePage: React.FC = (): JSX.Element => {
 
     const [movies, setMovies] = useState<IMovie[]>([]);
-    const [isLoading, setLoading] = useState<Boolean>(true);
+    const [isLoading, setLoading] = useState<boolean>(true);
 
     //ez nem async fv
     useEffect(() => {
@@ -31,6 +33,24 @@ const HomePage: React.FC = (): JSX.Element => {
         setMovies(data ?? [])
     }
 
+    const loader = (): JSX.Element =>
+    <div className="loader">
+      <Loader type="BallTriangle"
+        color="red"
+        height={100}
+        width={100}
+        visible={isLoading}
+      />
+    </div>
+
+    const listMovies = (): JSX.Element =>
+        <IonList>
+            <IonListHeader>Filmek</IonListHeader>
+            {
+                movies.map((movie, index) => <MovieComponent movie={movie} key={index} />)
+            }
+        </IonList>
+
     return (
         <IonPage>
             <IonHeader>
@@ -38,15 +58,10 @@ const HomePage: React.FC = (): JSX.Element => {
                     <IonTitle>Ionic Blank</IonTitle>
                 </IonToolbar>
             </IonHeader>
-            <IonContent>
-                <IonList>
-                    <IonListHeader>
-
-                    </IonListHeader>
-                    {
-                        movies.map((movie) => <MovieComponent movie={movie} />)
-                    }
-                </IonList>
+            <IonContent fullscreen>
+                {
+                    isLoading ? loader() : listMovies()
+                }
             </IonContent>
         </IonPage>
     );
