@@ -3,7 +3,6 @@ import './Detail.Style.css';
 import React, { useState, useEffect } from "react";
 import { IMovie } from "../../model/movie";
 import { MovieService } from "../../service/movieService";
-import { baseURL } from "../../service/baseURL";
 import {
     IonPage,
     IonHeader,
@@ -35,10 +34,8 @@ const DetailPage: React.FC<IProps> = (props: IProps): JSX.Element => {
         setLoading(false);
     }, []);
 
-    const filmURL = baseURL + `/${props.match.params.id}`;
     const fetchData = async (): Promise<void> => {
-        const data: IMovie | undefined = await MovieService.getMovie(filmURL);
-        setMovie(data)
+        setMovie(await MovieService.getMovieById(props.match.params.id))
     }
 
     return (

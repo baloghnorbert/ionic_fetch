@@ -3,7 +3,6 @@ import "./Home.Style.css";
 import React, { useState, useEffect } from "react";
 import { IMovie } from "../../model/movie";
 import { MovieService } from "../../service/movieService";
-import { baseURL } from "../../service/baseURL";
 import {
     IonPage,
     IonHeader,
@@ -29,23 +28,22 @@ const HomePage: React.FC = (): JSX.Element => {
     }, []);//[] miatt az oldal betöltésekor fut le
 
     const fetchData = async (): Promise<void> => {
-        const data: IMovie[] | undefined = await MovieService.getMovies(baseURL);
+        const data: IMovie[] | undefined = await MovieService.getMovies();
         setMovies(data ?? [])
     }
 
     const loader = (): JSX.Element =>
-    <div className="loader">
-      <Loader type="BallTriangle"
-        color="red"
-        height={100}
-        width={100}
-        visible={isLoading}
-      />
-    </div>
+        <div className="loader">
+            <Loader type="BallTriangle"
+                color="red"
+                height={100}
+                width={100}
+                visible={isLoading}
+            />
+        </div>
 
     const listMovies = (): JSX.Element =>
         <IonList>
-            <IonListHeader>Filmek</IonListHeader>
             {
                 movies.map((movie, index) => <MovieComponent movie={movie} key={index} />)
             }
@@ -55,7 +53,7 @@ const HomePage: React.FC = (): JSX.Element => {
         <IonPage>
             <IonHeader>
                 <IonToolbar>
-                    <IonTitle>Ionic Blank</IonTitle>
+                    <IonTitle>Filmek</IonTitle>
                 </IonToolbar>
             </IonHeader>
             <IonContent fullscreen>
