@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { IMovie } from "../../model/movie";
 import { IonItem, IonAvatar, IonLabel } from "@ionic/react";
 
@@ -9,7 +9,7 @@ interface IProps {
 const MovieComponent: React.FC<IProps> = (props: IProps): JSX.Element => {
 
     return (
-        <IonItem routerLink={`/detail/${props.movie.id}`}> 
+        <IonItem routerLink={`/detail/${props.movie.id}`}>
             <IonAvatar slot="start">
                 <img src={props.movie.movie_banner} alt={props.movie.title} />
             </IonAvatar>

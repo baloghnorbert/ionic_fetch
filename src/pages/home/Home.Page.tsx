@@ -9,38 +9,28 @@ import {
     IonToolbar,
     IonTitle,
     IonContent,
-    IonList,
-    IonListHeader
+    IonList
 } from "@ionic/react";
 import MovieComponent from "./Movie.Home.Page";
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
-import Loader from "react-loader-spinner";
+import LoaderComponent from "../Loader";
 
 const HomePage: React.FC = (): JSX.Element => {
 
     const [movies, setMovies] = useState<IMovie[]>([]);
     const [isLoading, setLoading] = useState<boolean>(true);
 
-    //ez nem async fv
     useEffect(() => {
-        fetchData();
-        setLoading(false);
-    }, []);//[] miatt az oldal betöltésekor fut le
+        setTimeout(() => {
+            fetchData();
+            setLoading(false);
+        }, 1000)
+    }, []);
 
     const fetchData = async (): Promise<void> => {
         const data: IMovie[] | undefined = await MovieService.getMovies();
         setMovies(data ?? [])
     }
-
-    const loader = (): JSX.Element =>
-        <div className="loader">
-            <Loader type="BallTriangle"
-                color="red"
-                height={100}
-                width={100}
-                visible={isLoading}
-            />
-        </div>
 
     const listMovies = (): JSX.Element =>
         <IonList>
@@ -58,7 +48,7 @@ const HomePage: React.FC = (): JSX.Element => {
             </IonHeader>
             <IonContent fullscreen>
                 {
-                    isLoading ? loader() : listMovies()
+                    isLoading ? <LoaderComponent loading={isLoading} /> : listMovies()
                 }
             </IonContent>
         </IonPage>
