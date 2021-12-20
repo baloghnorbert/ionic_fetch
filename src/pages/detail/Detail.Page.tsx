@@ -1,14 +1,13 @@
 import './Detail.Style.css';
 
 import React, { useState, useEffect } from "react";
-import { IMovie } from "../../model/movie";
-import { MovieService } from "../../service/movieService";
 import {
     IonPage,
     IonHeader,
     IonToolbar,
     IonTitle,
-    IonContent
+    IonContent,
+    IonCard
 } from "@ionic/react";
 
 import {
@@ -16,13 +15,15 @@ import {
 } from "react-router-dom";
 import LoaderComponent from '../Loader';
 import MovieDetailPageComponent from './Movie.Detail.Page';
+import { CharacterService } from '../../service/characterService';
+import {  ICharachterData } from '../../model/charachter';
 
 interface IProps extends RouteComponentProps<{ id: string }> {
 
 }
 
 const DetailPage: React.FC<IProps> = (props: IProps): JSX.Element => {
-    const [movie, setMovie] = useState<IMovie>();
+    const [charachter, setCharachter] = useState<ICharachterData>();
     const [isLoading, setLoading] = useState<boolean>(true);
 
     useEffect(() => {
@@ -34,20 +35,22 @@ const DetailPage: React.FC<IProps> = (props: IProps): JSX.Element => {
 
     const fetchData = async (): Promise<void> => {
         //TODO: SOHA NE inlineoljuk be,mert nem biztos, hogy meg fogja várni
-        const data = await MovieService.getMovieById(props.match.params.id)
-        setMovie(data);
+        const data = await CharacterService.byId(props.match.params.id)
+        setCharachter(data);
     }
+
+
 
     return (
         <IonPage>
             <IonHeader>
                 <IonToolbar>
-                    <IonTitle>{movie?.title}</IonTitle>
+                    <IonTitle>{charachter?.name}</IonTitle>
                 </IonToolbar>
             </IonHeader>
             <IonContent fullscreen>
                 {
-                    isLoading ? <LoaderComponent loading={isLoading} /> : <MovieDetailPageComponent movie={movie} />
+                    //isLoading ? <LoaderComponent loading={isLoading} /> : <MovieDetailPageComponent movie={charachter} />
                 }
             </IonContent>
         </IonPage>

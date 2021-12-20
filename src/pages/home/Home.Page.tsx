@@ -1,56 +1,83 @@
 import "./Home.Style.css";
 
 import React, { useState, useEffect } from "react";
-import { IMovie } from "../../model/movie";
-import { MovieService } from "../../service/movieService";
 import {
     IonPage,
     IonHeader,
     IonToolbar,
     IonTitle,
     IonContent,
-    IonList
+    IonList,
+    IonListHeader,
+    IonInfiniteScroll,
+    IonInfiniteScrollContent
 } from "@ionic/react";
-import MovieComponent from "./Movie.Home.Page";
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 import LoaderComponent from "../Loader";
+import { ICharachterData, ICharachter } from "../../model/charachter";
+import CharachterComponent from "./charachter.component";
+import { CharacterService } from "../../service/characterService";
 
 const HomePage: React.FC = (): JSX.Element => {
 
-    const [movies, setMovies] = useState<IMovie[]>([]);
-    const [isLoading, setLoading] = useState<boolean>(true);
+    const [charachters, setCharachters] = useState<ICharachterData[]>([]);
+    const [page, setPage] = useState<number>(1);
+    const [disableInfinitScroll, setDisableInfinitScroll] = useState<boolean>(false);
+    const [isLoading, setIsLoading] = useState<boolean>(true);
 
-    useEffect(() => {
-        setTimeout(() => {
-            fetchData();
-            setLoading(false);
-        }, 1000)
-    }, []);
+    useEffect(() =>{
+        fetchData();
+        setIsLoading(false);
 
-    const fetchData = async (): Promise<void> => {
-        const data: IMovie[] | undefined = await MovieService.getMovies();
-        //TODO: SOHA NE inlineoljuk be,mert nem biztos, hogy meg fogja várni
-        setMovies(data ?? [])
+    },[]);
+
+    const searchNext = async (e: CustomEvent<void>): Promise<void> => {
+        await fetchData();
+        (e.target as HTMLIonInfiniteScrollElement).complete();
     }
 
-    const listMovies = (): JSX.Element =>
-        <IonList>
+    const fetchData = async (): Promise<void> => {
+        const data: ICharachterData[] = await CharacterService.page(page);
+        if (data && data.length > 0) {
+            setCharachters([...charachters, ...data]);
+
+            if (data.length < 10) //kiolvastuk az összeset, már nincs több benne
             {
-                movies.map((movie, index) => <MovieComponent movie={movie} key={index} />)
+                setDisableInfinitScroll(true);
+            } else {
+                setPage(page + 1);
             }
-        </IonList>
+        } else {
+            setDisableInfinitScroll(true);
+        }
+    }
 
     return (
         <IonPage>
             <IonHeader>
                 <IonToolbar>
-                    <IonTitle>Filmek</IonTitle>
+                    <IonTitle>STAR WARS CHARACHTERS</IonTitle>
                 </IonToolbar>
             </IonHeader>
             <IonContent fullscreen>
-                {
-                    isLoading ? <LoaderComponent loading={isLoading} /> : listMovies()
-                }
+                <IonList>
+                    <IonListHeader></IonListHeader>
+                    {
+                        charachters.map((data,index) => <CharachterComponent charachter={data} key={index} />)
+                    }
+                </IonList>
+                <IonInfiniteScroll
+                    onIonInfinite={e => searchNext(e)}
+                    threshold="50px"
+                    disabled={disableInfinitScroll}
+                >
+                    <IonInfiniteScrollContent
+                        loadingSpinner="bubbles"
+                        loadingText="Loading more data..."
+                    >
+
+                    </IonInfiniteScrollContent>
+                </IonInfiniteScroll>
             </IonContent>
         </IonPage>
     );
