@@ -29,6 +29,7 @@ const HomePage: React.FC = (): JSX.Element => {
 
     const fetchData = async (): Promise<void> => {
         const data: IMovie[] | undefined = await MovieService.getMovies();
+        //TODO: SOHA NE inlineoljuk be,mert nem biztos, hogy meg fogja várni
         setMovies(data ?? [])
     }
 

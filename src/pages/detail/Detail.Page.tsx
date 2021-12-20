@@ -33,7 +33,9 @@ const DetailPage: React.FC<IProps> = (props: IProps): JSX.Element => {
     }, []);
 
     const fetchData = async (): Promise<void> => {
-        setMovie(await MovieService.getMovieById(props.match.params.id))
+        //TODO: SOHA NE inlineoljuk be,mert nem biztos, hogy meg fogja várni
+        const data = await MovieService.getMovieById(props.match.params.id)
+        setMovie(data);
     }
 
     return (

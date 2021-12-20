@@ -1,4 +1,5 @@
 import Loader from "react-loader-spinner";
+import React from "react";
 
 interface IProps {
     loading: boolean;
