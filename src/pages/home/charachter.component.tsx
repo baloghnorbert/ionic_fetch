@@ -7,6 +7,9 @@ interface IProps {
     charachter: ICharachterData;
 }
 
+//TODO: hazi --> minden szereplőnek vannak filmei --> a filmeket meg kell jeleníteni a details oldalon a karakter neve 
+// alatt megjelenjenek a filmek
+
 const CharachterComponent: React.FC<IProps> = (props: IProps): JSX.Element => {
 
     const getId = (): string => props.charachter.url.split("/")[5];
