@@ -1,15 +1,12 @@
 
 export interface IMovie {
-    id: string;
-    title: string;
-    original_title: string;
-    original_title_romanised: string;
-    image: string;
-    movie_banner: string;
-    description: string;
-    director: string;
-    producer: string;
-    release_date: number;
-    running_time: number;
-    rt_score: number;
+    title: string,
+    episode_id: number, 
+    opening_crawl: string,
+    director: string,
+    producer: string,
+    release_date: Date,
+    created:Date,
+    edited: Date,
+    url: string
 }

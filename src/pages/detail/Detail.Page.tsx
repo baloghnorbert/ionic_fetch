@@ -6,17 +6,16 @@ import {
     IonHeader,
     IonToolbar,
     IonTitle,
-    IonContent,
-    IonCard
-} from "@ionic/react";
+    IonContent} from "@ionic/react";
 
 import {
     withRouter, RouteComponentProps
 } from "react-router-dom";
-import LoaderComponent from '../Loader';
-import MovieDetailPageComponent from './Movie.Detail.Page';
-import { CharacterService } from '../../service/characterService';
+import { CharacterService, MovieService } from '../../service/httpService';
 import {  ICharachterData } from '../../model/charachter';
+import { IMovie } from '../../model/movie';
+import LoaderComponent from '../Loader';
+import MovieComponent from './movie.component';
 
 interface IProps extends RouteComponentProps<{ id: string }> {
 
@@ -24,6 +23,7 @@ interface IProps extends RouteComponentProps<{ id: string }> {
 
 const DetailPage: React.FC<IProps> = (props: IProps): JSX.Element => {
     const [charachter, setCharachter] = useState<ICharachterData>();
+    const [movies, setMovies] = useState<IMovie[]>();
     const [isLoading, setLoading] = useState<boolean>(true);
 
     useEffect(() => {
@@ -36,10 +36,11 @@ const DetailPage: React.FC<IProps> = (props: IProps): JSX.Element => {
     const fetchData = async (): Promise<void> => {
         //TODO: SOHA NE inlineoljuk be,mert nem biztos, hogy meg fogja várni
         const data = await CharacterService.byId(props.match.params.id)
+        const moviesData : IMovie[] = await MovieService.getAll(data?.films!)
+
         setCharachter(data);
+        setMovies(moviesData);
     }
-
-
 
     return (
         <IonPage>
@@ -50,7 +51,8 @@ const DetailPage: React.FC<IProps> = (props: IProps): JSX.Element => {
             </IonHeader>
             <IonContent fullscreen>
                 {
-                    //isLoading ? <LoaderComponent loading={isLoading} /> : <MovieDetailPageComponent movie={charachter} />
+                    movies?.map((data,index) => <MovieComponent movie={data} key={index} />)
+                  //  isLoading ? <LoaderComponent loading={isLoading} /> : <MovieComponent movie={movies} />
                 }
             </IonContent>
         </IonPage>

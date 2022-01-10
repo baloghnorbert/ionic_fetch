@@ -24,6 +24,8 @@ const CharachterComponent: React.FC<IProps> = (props: IProps): JSX.Element => {
                 <h3>{props.charachter.gender}</h3>
                 <p>{props.charachter.species}</p>
                 <p>{props.charachter.birth_year}</p>
+
+                
             </IonLabel>
         </IonItem>
     );

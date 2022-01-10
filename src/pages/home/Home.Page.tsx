@@ -16,7 +16,7 @@ import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 import LoaderComponent from "../Loader";
 import { ICharachterData, ICharachter } from "../../model/charachter";
 import CharachterComponent from "./charachter.component";
-import { CharacterService } from "../../service/characterService";
+import { CharacterService } from "../../service/httpService";
 
 const HomePage: React.FC = (): JSX.Element => {
 
